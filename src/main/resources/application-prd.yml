@@ -1,0 +1,14 @@
+server: 
+  port: 8080
+spring:
+   kafka:
+     consumer:
+        bootstrap-servers: ${IP_KAFKA_SERVER}
+        group-id: grupo_pedido
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+   datasource:
+    url: jdbc:postgresql://${POSTGRE_URL}:${POSTGRE_PORT}/${POSTGRE_DATABASE}
+    username: ${POSTGRE_USER}
+    password: ${POSTGRE_PASS}

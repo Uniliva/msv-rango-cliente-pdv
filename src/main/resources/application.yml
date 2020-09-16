@@ -1,0 +1,8 @@
+
+spring:
+  application:
+    name: msv-rango-cliente-pdv
+  profiles:
+    active: dev
+
+topic.kafka.pedido: TOPICO_PEDIDO    
