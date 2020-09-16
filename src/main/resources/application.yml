@@ -4,5 +4,19 @@ spring:
     name: msv-rango-cliente-pdv
   profiles:
     active: dev
-
-topic.kafka.pedido: TOPICO_PEDIDO    
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate: 
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: update
+    show-sql: true 
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    baseline-on-migrate: true
+    
+    
+## Topicos Kafka    
+topic.kafka.pedido: TOPICO_PEDIDO   
+topic.kafka.grupo.id: grupo_pedido
