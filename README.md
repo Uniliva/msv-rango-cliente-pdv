@@ -15,8 +15,8 @@
  
 ## Configuração Docker
 - IP_KAFKA_SERVER variavel do ambiente do kafka server
-- POSTGRE_URL
-- POSTGRE_PORT
-- POSTGRE_DATABASE
-- POSTGRE_USER
-- POSTGRE_PASS
+- POSTGRE_URL variavel da url do banco postegreSql
+- POSTGRE_PORT variavel da porta do banco postegreSql
+- POSTGRE_DATABASE variavel do database do banco postegreSql
+- POSTGRE_USER variavel do usuario do banco postegreSql
+- POSTGRE_PASS variavel da senha do banco postegreSql
