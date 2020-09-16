@@ -1,0 +1,1 @@
+# msv-rango-cliente-pdv
