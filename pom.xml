@@ -49,6 +49,16 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>com.github.uniliva</groupId>
+			<artifactId>lib-rango-base</artifactId>
+			<version>0.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.uniliva</groupId>
+			<artifactId>lib-commons-utils</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
