@@ -4,6 +4,8 @@ import com.github.uniliva.librangobase.dto.PedidoDTO;
 
 public interface RepoCustom {
 
-	public void salvar(PedidoDTO pedido);
+	public PedidoDTO salvar(PedidoDTO pedido);
+	
+	public void salvarItensPedido(PedidoDTO pedido);
 
 }

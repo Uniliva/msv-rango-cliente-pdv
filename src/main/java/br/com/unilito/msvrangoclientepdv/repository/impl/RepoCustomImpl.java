@@ -1,14 +1,23 @@
 package br.com.unilito.msvrangoclientepdv.repository.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.github.uniliva.librangobase.dto.PedidoDTO;
 import com.github.uniliva.librangobase.dto.ProdutoDTO;
+import com.github.uniliva.librangobase.entity.RegistroPedidoEntity;
+import com.github.uniliva.librangobase.mapper.RegistroPedidoMapper;
 
 import br.com.unilito.msvrangoclientepdv.repository.RepoCustom;
 
@@ -16,25 +25,55 @@ import br.com.unilito.msvrangoclientepdv.repository.RepoCustom;
 @PropertySource("classpath:query/repo.properties")
 public class RepoCustomImpl implements RepoCustom {
 
-	@Value("${SPI.PRODUTO}")
-	private String queryInsertProduto;
-	
+	@Value("${SPI.PEDIDO}")
+	private String queryInsertPedido;
+
+	@Value("${SPI.ITEM.PEDIDO}")
+	private String queryInsertItemPedido;
+
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
+	@Autowired
+	private RegistroPedidoMapper mapper;
+
 	@Override
-	public void salvar(PedidoDTO pedido) {
+	public PedidoDTO salvar(PedidoDTO pedido) {
 		
-		ProdutoDTO prod = pedido.getProdutos().get(0);
+		RegistroPedidoEntity entity = mapper.mappear(pedido);
+
+		final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+		final BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(entity);
+
+		namedParameterJdbcTemplate.update(queryInsertPedido, parameterSource, keyHolder, new String[] { "codigo" });
+
+		pedido.setCodigo(keyHolder.getKey().longValue());
+
+		return pedido;
+	}
+
+	@Override
+	public void salvarItensPedido(PedidoDTO pedido) {
 		
-		final MapSqlParameterSource parametros = new MapSqlParameterSource();
-//		parameter.addValue("codigo", prod.getCodigo());
-		parametros.addValue("nome", prod.getNome());
-		parametros.addValue("descricao", prod.getDescricao());
-		parametros.addValue("codCategoria", prod.getCodigo());
-		parametros.addValue("valor", prod.getValor());
-				
-		namedParameterJdbcTemplate.update(queryInsertProduto, parametros);
+		List<ProdutoDTO> produtos = pedido.getProdutos();
+
+		jdbcTemplate.batchUpdate(queryInsertItemPedido, new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				ps.setLong(1, pedido.getCodigo());
+				ps.setLong(2, produtos.get(i).getCodigo());
+
+			}
+
+			@Override
+			public int getBatchSize() {
+				return produtos.size();
+			}
+		});
 
 	}
 

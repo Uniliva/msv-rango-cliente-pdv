@@ -2,6 +2,7 @@ package br.com.unilito.msvrangoclientepdv.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.uniliva.librangobase.dto.PedidoDTO;
 
@@ -15,8 +16,11 @@ public class PedidosServiceImpl implements PedidosService {
 	private RepoCustom repo;
 	
 	@Override
+	@Transactional
 	public void salvar(PedidoDTO pedido) {
-		repo.salvar(pedido);
+		PedidoDTO pedidoSalvo = repo.salvar(pedido);
+		repo.salvarItensPedido(pedidoSalvo);
+		
 	}
 
 }
