@@ -80,6 +80,22 @@
 		</dependency>
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>rango-feed</id>
+			<url>https://pkgs.dev.azure.com/uni-dev/lu-estudos/_packaging/rango-feed/maven/v1</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
