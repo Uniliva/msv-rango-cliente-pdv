@@ -20,9 +20,12 @@ import com.github.uniliva.librangobase.entity.RegistroPedidoEntity;
 import com.github.uniliva.librangobase.mapper.RegistroPedidoMapper;
 
 import br.com.unilito.msvrangoclientepdv.repository.RepoCustom;
+import br.com.unilito.msvrangoclientepdv.repository.rowmapper.PedidoRowMapper;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @PropertySource("classpath:query/repo.properties")
+@Slf4j
 public class RepoCustomImpl implements RepoCustom {
 
 	@Value("${SPI.PEDIDO}")
@@ -30,6 +33,9 @@ public class RepoCustomImpl implements RepoCustom {
 
 	@Value("${SPI.ITEM.PEDIDO}")
 	private String queryInsertItemPedido;
+	
+	@Value("${SPI.BUSCAR.PEDIDOS}")
+	private String queryBuscarStatuPedidos;
 
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -75,6 +81,12 @@ public class RepoCustomImpl implements RepoCustom {
 			}
 		});
 
+	}
+
+	@Override
+	public List<PedidoDTO> recuperaPedidoANotificar() {
+		log.debug("Buscando pedido em preparação - Banco");		
+		return namedParameterJdbcTemplate.query(queryBuscarStatuPedidos, new PedidoRowMapper());
 	}
 
 }

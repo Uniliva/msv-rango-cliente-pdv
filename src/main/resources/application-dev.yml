@@ -2,6 +2,10 @@ server:
   port: 8080
 spring:
    kafka:
+     producer:
+        bootstrap-servers: 192.168.10.189:9092
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
      consumer:
       bootstrap-servers: 192.168.10.189:9092
 #      group-id: grupo_pedido
@@ -12,3 +16,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: unisenha
+    
+worker:
+  status:
+    pedido:
+      cron: 0 0/1 * * * ?
+      
+topic:
+  kafka:
+    fila:
+      status: STATUS_PEDIDO
+      
+auto: 
+  create: 
+    topics: 
+      enable: true
