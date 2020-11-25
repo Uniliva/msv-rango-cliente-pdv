@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.com.unilito</groupId>
 	<artifactId>msv-rango-cliente-pdv</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>msv-rango-cliente-pdv</name>
 	<description>Projeto responsável por recuperar os pedidos e salvar na base</description>
 

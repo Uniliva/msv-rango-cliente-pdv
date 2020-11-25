@@ -37,9 +37,11 @@ public class PedidosServiceImpl implements PedidosService {
 
 	@Override
 	public void notificarStatusPedidos() {
-		List<PedidoDTO> pedido = repo.recuperaPedidoANotificar();
-		log.info("Postando mensagem no topico: {}", topico);
-		kafkaTemplate.send(topico, JsonUtils.paraJson(pedido));
+		List<PedidoDTO> lsPedidos = repo.recuperaPedidoANotificar();
+		if (!lsPedidos.isEmpty()) {
+			log.info("Postando mensagem no topico: {}", topico);
+			kafkaTemplate.send(topico, JsonUtils.paraJson(lsPedidos));
+		}
 	}
 
 }
