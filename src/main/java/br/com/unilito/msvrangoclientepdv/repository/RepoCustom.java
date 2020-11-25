@@ -12,4 +12,6 @@ public interface RepoCustom {
 
 	public List<PedidoDTO> recuperaPedidoANotificar();
 
+	public void atualizarDtNotificacao(List<PedidoDTO> lsPedidos);
+
 }

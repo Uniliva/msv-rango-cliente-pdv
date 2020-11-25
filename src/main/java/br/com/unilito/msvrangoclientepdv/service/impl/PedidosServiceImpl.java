@@ -41,6 +41,7 @@ public class PedidosServiceImpl implements PedidosService {
 		if (!lsPedidos.isEmpty()) {
 			log.info("Postando mensagem no topico: {}", topico);
 			kafkaTemplate.send(topico, JsonUtils.paraJson(lsPedidos));
+			repo.atualizarDtNotificacao(lsPedidos);
 		}
 	}
 

@@ -34,8 +34,11 @@ public class RepoCustomImpl implements RepoCustom {
 	@Value("${SPI.ITEM.PEDIDO}")
 	private String queryInsertItemPedido;
 	
-	@Value("${SPI.BUSCAR.PEDIDOS}")
+	@Value("${SPS.BUSCAR.PEDIDOS}")
 	private String queryBuscarStatuPedidos;
+	
+	@Value("${SPU.REGISTRO_PEDIDO}")
+	private String queryUpdateDtNotificacao;
 
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -87,6 +90,22 @@ public class RepoCustomImpl implements RepoCustom {
 	public List<PedidoDTO> recuperaPedidoANotificar() {
 		log.debug("Buscando pedido em preparação - Banco");		
 		return namedParameterJdbcTemplate.query(queryBuscarStatuPedidos, new PedidoRowMapper());
+	}
+
+	@Override
+	public void atualizarDtNotificacao(List<PedidoDTO> lsPedidos) {
+		log.debug("Atualizando registro de pedidos");	
+		jdbcTemplate.batchUpdate(queryUpdateDtNotificacao, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setLong(1, lsPedidos.get(i).getCodigo());
+            }
+            @Override
+            public int getBatchSize() {
+                return lsPedidos.size();
+            }
+        });
+		
 	}
 
 }
